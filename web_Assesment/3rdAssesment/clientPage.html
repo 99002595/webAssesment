@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <style>
+            h1, nav{
+                background-color: lightsalmon;
+                height: 50px;
+                width: 100%;
+                text-align: center;
+            }
+            .section{
+                display: inline-block;
+                margin:5px;
+                width: 45%;
+                background-color: lightskyblue;
+                vertical-align: top;
+            }
+            a{
+                width: 100px;
+                height: 40px;
+                padding: 5px;
+                margin:5px;
+                align-content: center;
+                margin-left:15%;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script>    
+            const url = "http://localhost:1234/student";
+            function saveChanges(){
+                let obj ={};
+             
+                obj.stdId = $("#stdId").text();
+                obj.stdName = $("#stdName").val();
+                obj.stdAddress = $("#stdAddress").val();
+                obj.stdPhone = $("#stdPhone").val();
+                
+                $.ajax({
+                    method : 'PUT',
+                    url : url,
+                    data : obj,
+                    success : (data)=>{
+                        alert(data);
+                    }
+                })
+             
+            }
+            function findRecord(){
+                $("div").hide(2000);
+                $("div:eq(1)").show(2000);
+                const id = $(this).attr("eId");
+                let temp = url + "/" + id;
+                $.get(temp, (data) => {
+                    let emp = JSON.parse(data);
+                    $("#stdId").text(emp.stdId);
+                    $("#stdName").val(emp.stdName);
+                    $("#stdAddress").val(emp.stdAddress);
+                    $("#stdPhone").val(emp.stdPhone);
+                })
+            }
+            function findRecordfordel(){
+                
+                const id = $(this).attr("eId");
+                let temp = url + "/" + id;
+                $.ajax({
+                    method : 'DELETE',
+                    url : temp,
+                    data : {
+                        id:id
+                    },
+                    success : (data)=>{
+                        alert(data);
+                        populateData();
+                    },
+                    error:function(response){
+                        console.log(response);
+                    }
+                })
+               
+            }
+            function showAddDiv(){
+                $("div").hide(2000);
+                $("div:last").show(2000);
+            }
+
+            function addChanges(){
+               
+                let obj = { };
+                
+                obj.stdId = $("#newId").val();
+                obj.stdName = $("#newName").val();
+                obj.stdAddress = $("#newAddress").val();
+                obj.stdPhone = $("#newPhone").val();
+                $.post(url, obj, (data)=>{
+                    alert(data);
+                    $("input").val("");
+                    $("div").hide(2000);
+                })
+                
+            }
+            function populateData(){
+                
+                $("div:first").show(2000);
+                $("table").find("tr:gt(0)").remove();
+               
+                $.get(url, (data)=>{
+                    let array = JSON.parse(data);
+                    for (const emp of array) {
+                        const row = `<tr><td>${emp.stdId}</td><td>${emp.stdName}</td><td>${emp.stdAddress}</td><td>${emp.stdPhone}</td><td><a href="#" class="edit" eId = ${emp.empId}>Edit</a>  <a href="#" class="del" eId = ${emp.empId}>Delete</a></tr>`
+                        $("table").append(row);
+                    }
+                    $(".edit").click(findRecord); 
+                    $(".del").click(findRecordfordel);              
+                })
+                
+                
+            }        
+            function init(){
+                $("div").hide(2000);
+                $("a:first").click(populateData);
+                $("a:eq(1)").click(showAddDiv);
+                $("button:eq(0)").click(saveChanges);
+                $("button:eq(1)").click(addChanges);
+            }
+            $(document).ready(init);
+        </script>
+    </head>
+    <body>
+        <h1>Student Monitoring System</h1>
+        <nav>
+            <a href="#">Show All</a>
+            <a href="#">Add New</a>
+            
+        </nav>
+        <div class="section">
+            <table border="1">
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student bName</th>
+                    <th>Student Address</th>
+                    <th>Student Phone</th>
+                    <th>Options</th>
+                </tr>
+            </table>
+        </div>
+        <div class="section">
+            <h2>Details of the Student</h2>
+            <p>student ID: <span id="stdId"></span></p>
+            <p>student Name : <input id="stdName"/></p>
+            <p>student Address : <input id="stdAddress"/></p>
+            <p>student Phone : <input id="stdPhone"/></p>
+            <p><button>Save Changes</button></p>
+        </div>
+        <div class="section">
+            <h2>Register New Student</h2>
+            <p>Student ID: <input id="newId" /></p>
+            <p>Student Name : <input id="newName" /></p>
+            <p>Student Address : <input id="newAddress" /></p>
+            <p>Student PHONE: <input id="newSalary" /></p>
+            <p><button>Add student</button></p>
+             
+        </div>
+    </body>
+</html>
