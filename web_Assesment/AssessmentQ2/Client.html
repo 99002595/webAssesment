@@ -6,6 +6,12 @@
     <title>Employee Monitoring System</title>
     <script src="./common.js"></script>
     <script src="./empData.js"></script>
+    <style>
+        h1
+        {
+            background-color:coral;
+        }
+    </style>
     <script>
 
         let mgr = new empManager();
@@ -36,7 +42,7 @@
             alert("Employee added successfully");
         }
 
-        function fillRecords(){
+        function fill(){
             $hide("div3");
             $hide("div2");
             $show("div1");
@@ -95,8 +101,8 @@
 <body onload="init()">
     <header>
         <nav>
-            <a href="#" onclick="fillRecords()">View All</a>
-            <a href="#" onclick="onAddClick()">New Employee</a>
+            <a href="#" onclick="fill()">show </a>
+            <a href="#" onclick="onAddClick()">Add Employee</a>
         </nav>
     </header>
     <section>
@@ -118,7 +124,7 @@
             <p>Employee ID: <input type="number" id="idn"> </p>
             <p>Employee Name: <input type="text" id="namen"></p>
             <p>Employee Address: <input type="text" id="addressn"></p>
-            <p><button onclick="onAddEmployee()">Add Employee</button></p>
+            <p><button onclick="onAddEmployee()">New Employee</button></p>
        </div> 
     </section>
 </body>
