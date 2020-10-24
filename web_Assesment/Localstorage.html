@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        div{
+            text-align:center;
+            background-color:#add8e6;
+        }
+        h1{
+            text-align:center;
+            background-color:palevioletred;
+            padding:10px;
+            border: 1pt solid ;
+        }
+    </style>
+    <script>
+     function clearb(){
+            document.getElementById("uname").value="";
+            document.getElementById("upassword").value="";
+            document.getElementById("uemail").value="";
+            document.getElementById("uphone").value="";
+            document.getElementById("ucity").value=""; 
+            if (document.contains(document.getElementById("display")))
+            document.getElementById("display").remove();
+        }
+        function send(){
+    	    var name=document.getElementById("uname").value;
+            var password=document.getElementById("upassword").value;
+            var email=document.getElementById("uemail").value;
+            var phone=document.getElementById("uphone").value;
+            var city=document.getElementById("ucity").value;
+    if (typeof(Storage) !== "undefined") {
+  localStorage.setItem("Name", name);
+  localStorage.setItem("Password", password);
+  localStorage.setItem("email", email);
+  localStorage.setItem("phone", phone);
+  localStorage.setItem("city", city);
+} else {
+  alert("Browser Does not support local storage");
+}
+      }
+      function get()
+      {
+      alert("Data getting from local storage");
+            if (document.contains(document.getElementById("display")))
+            document.getElementById("display").remove();
+            var div=document.createElement("div");
+            div.id="display";
+            var n=document.createElement("P");
+            n.innerHTML="Name: "+ localStorage.getItem("Name");
+            var pass=document.createElement("P");
+            pass.innerHTML="Password: "+localStorage.getItem("Password");
+             var e=document.createElement("P");
+            e.innerHTML="Email: "+localStorage.getItem("email");
+             var ph=document.createElement("P");
+            ph.innerHTML="Phone: "+localStorage.getItem("phone");
+             var cit=document.createElement("P");
+            cit.innerHTML="City: "+localStorage.getItem("city");
+            div.appendChild(n);
+            div.appendChild(pass);
+            div.appendChild(e);
+            div.appendChild(ph);
+            div.appendChild(cit);
+            document.body.appendChild(div);
+      }
+    </script>
+</head>
+<body>
+  <h1>Registration Form</h1><hr/>
+  <div>
+      <p>Enter Name    : <input type="text" id="uname"></p>
+      <p>Enter Password: <input type="password" id="upassword"></p>
+      <p>Enter Email id: <input type="email" id="uemail"></p>
+      <p>Enter Phone No: <input type="string" id="uphone"></p>
+      <p>Enter City    : <input type="text" id="ucity"></p>
+      <p>Data:<input type="date" id="dob"></p>
+      <p><button onclick="send()">Submit</button> <button onclick="clearb()">Clear</button></p>
+      <p><button onclick="get()">Get Data</button> </p>
+  </div>  
+</body>
+</html>
+	
+	
+	
+
